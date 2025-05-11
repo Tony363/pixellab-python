@@ -5,7 +5,9 @@ import os
 import argparse
 
 # Default skeleton file path
-DEFAULT_SKELETON_FILE = os.path.join(os.path.dirname(__file__), 'skeleton_points/boy64_skeleton.json')
+DEFAULT_SKELETON_FILE = os.path.join(
+    os.path.dirname(__file__), "skeleton_points/boy64_skeleton.json"
+)
 
 # Image dimensions
 IMAGE_WIDTH = 800
@@ -55,7 +57,7 @@ def load_keypoints_from_file(json_file_path):
     Loads keypoints from a JSON file.
     The file should contain a list of dictionaries, each representing a keypoint.
     """
-    with open(json_file_path, 'r') as f:
+    with open(json_file_path, "r") as f:
         keypoints = json.load(f)
     return keypoints
 
@@ -99,7 +101,7 @@ def draw_pose_on_image(keypoints_data, img_width, img_height):
         # Get coordinates for both parts of the pair
         part_a_coords = points_map.get(part_a_label)
         part_b_coords = points_map.get(part_b_label)
-        
+
         # Draw a line if both keypoints exist
         if part_a_coords and part_b_coords:
             draw.line([part_a_coords, part_b_coords], fill=LINE_COLOR, width=LINE_WIDTH)
@@ -120,20 +122,29 @@ def draw_pose_on_image(keypoints_data, img_width, img_height):
 
 if __name__ == "__main__":
     # Parse command line arguments
-    parser = argparse.ArgumentParser(description='Visualize skeleton keypoints from a JSON file')
-    parser.add_argument('--skeleton', type=str, default=DEFAULT_SKELETON_FILE,
-                        help='Path to the skeleton JSON file')
-    parser.add_argument('--width', type=int, default=IMAGE_WIDTH,
-                        help='Width of the output image')
-    parser.add_argument('--height', type=int, default=IMAGE_HEIGHT,
-                        help='Height of the output image')
-    parser.add_argument('--output', type=str, default="pose_visualization.png",
-                        help='Output filename')
+    parser = argparse.ArgumentParser(
+        description="Visualize skeleton keypoints from a JSON file"
+    )
+    parser.add_argument(
+        "--skeleton",
+        type=str,
+        default=DEFAULT_SKELETON_FILE,
+        help="Path to the skeleton JSON file",
+    )
+    parser.add_argument(
+        "--width", type=int, default=IMAGE_WIDTH, help="Width of the output image"
+    )
+    parser.add_argument(
+        "--height", type=int, default=IMAGE_HEIGHT, help="Height of the output image"
+    )
+    parser.add_argument(
+        "--output", type=str, default="pose_visualization.png", help="Output filename"
+    )
     args = parser.parse_args()
-    
+
     # 1. Load the keypoints from the JSON file
     parsed_keypoints = load_keypoints_from_file(args.skeleton)
-    
+
     # 2. Draw the pose onto a new image
     print(f"Loaded {len(parsed_keypoints)} keypoints from {args.skeleton}")
     pose_image = draw_pose_on_image(parsed_keypoints, args.width, args.height)
