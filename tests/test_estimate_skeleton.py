@@ -40,7 +40,7 @@ def test_estimate_skeleton():
 
     skeleton_dir = Path("tests") / "skeleton_points"
     skeleton_dir.mkdir(exist_ok=True)
-    with open(skeleton_dir / f"{image_path.split('.')[0]}_skeleton.json", "w") as f:
+    with open(images_dir / f"{image_path.split('.')[0]}_skeleton.json", "w") as f:
         json.dump(response.keypoints, f)
 
 
